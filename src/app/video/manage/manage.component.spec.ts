@@ -11,7 +11,9 @@ describe('ManageComponent', () => {
       declarations: [ ManageComponent ]
     })
     .compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(ManageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,50 +1,68 @@
-import {Injectable} from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-  DocumentReference,
+import { Injectable } from '@angular/core';
+import { 
+  AngularFirestore, AngularFirestoreCollection, DocumentReference, 
   QuerySnapshot
-} from "@angular/fire/compat/firestore";
-import {AngularFireAuth} from "@angular/fire/compat/auth";
-import Clip from "../models/clip.model";
-import {map, switchMap} from "rxjs/operators";
-import {of, BehaviorSubject, combineLatest} from "rxjs";
-import {AngularFireStorage} from "@angular/fire/compat/storage";
+} from '@angular/fire/compat/firestore'
+import IClip from '../models/clip.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { switchMap, map } from 'rxjs/operators';
+import { of, BehaviorSubject, combineLatest } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClipService {
-  private clipsCollection: AngularFirestoreCollection<Clip>;
+  public clipsCollection: AngularFirestoreCollection<IClip>
 
-  constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage) {
-    this.clipsCollection = db.collection('clips');
+  constructor(
+    private db: AngularFirestore,
+    private auth: AngularFireAuth,
+    private storage: AngularFireStorage
+  ) { 
+    this.clipsCollection = db.collection('clips')
   }
 
-  async createClip(data: Clip): Promise<DocumentReference<Clip>> {
-    return this.clipsCollection?.add(data);
+  createClip(data: IClip) : Promise<DocumentReference<IClip>> {
+    return this.clipsCollection.add(data)
   }
 
   getUserClips(sort$: BehaviorSubject<string>) {
-    // @ts-ignore
-    return combineLatest([this.auth.user, sort$]).pipe(
+    return combineLatest([
+      this.auth.user,
+      sort$
+    ]).pipe(
       switchMap(values => {
-        const [user, sort] = values;
-        if (!user) return of([]);
-        const query = this.clipsCollection.ref.where('uid', '==', user.uid).orderBy('timestamp', sort === '1' ? 'desc' : 'asc');
-        return query.get();
+        const [user, sort] = values
+        
+        if(!user) {
+          return of([])
+        }
+
+        const query = this.clipsCollection.ref.where(
+          'uid', '==', user.uid
+        ).orderBy(
+          'timestamp',
+          sort === '1' ? 'desc' : 'asc'
+        )
+
+        return query.get()
       }),
-      map(snapshot => (snapshot as QuerySnapshot<Clip>).docs)
-    );
+      map(snapshot => (snapshot as QuerySnapshot<IClip>).docs)
+    )
   }
 
-  async updateClip(id: string, title: string) {
-    return this.clipsCollection.doc(id).update({title});
+  updateClip(id: string, title: string) {
+    return this.clipsCollection.doc(id).update({
+      title
+    })
   }
 
-  async deleteClip(clip: Clip) {
-    const clipRef = this.storage.ref(`clips/${clip.fileName}`);
-    await clipRef.delete();
-    await this.clipsCollection.doc(clip.docId).delete();
+  async deleteClip(clip: IClip) {
+    const clipRef = this.storage.ref(`clips/${clip.fileName}`)
+
+    await clipRef.delete()
+
+    await this.clipsCollection.doc(clip.docID).delete()
   }
 }

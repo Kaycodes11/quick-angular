@@ -10,8 +10,8 @@ import { AuthService } from '../services/auth.service';
 export class NavComponent implements OnInit {
   constructor(
     public modal: ModalService,
-    public auth: AuthService
-  ) {
+    public auth: AuthService,
+  ) { 
   }
 
   ngOnInit(): void {

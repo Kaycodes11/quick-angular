@@ -1,12 +1,5 @@
 <app-nav></app-nav>
 
-<!--Angular doesn't know where to load the component, it doesn't not magically inject the
-component in the correct location, so must add a placeholder to configure the
-location for all of the route components. "router-outlet" is a directive that acts as a placeholder
-for the given routes and their component, once the router has been initialized, this directive will
-load the component corresponding to the path.
--->
-
 <router-outlet></router-outlet>
 
 <app-auth-modal *ngIf="!(auth.isAuthenticatedWithDelay$ | async)"></app-auth-modal>
