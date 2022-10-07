@@ -8,8 +8,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class LoginComponent implements OnInit {
   credentials = {
-    email: '',
-    password: ''
+    email: 'jane@gmail.com',
+    password: 'Use12@#$@#24'
   }
   showAlert = false
   alertMsg = 'Please wait! We are logging you in.'
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
       console.log(e)
 
-      return 
+      return
     }
 
     this.alertMsg = 'Success! You are now logged in.'
