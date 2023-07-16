@@ -1,8 +1,9 @@
-img {
+.headerClass {
+  background: aqua;
 }
 
-input {
-  display: block;
-  padding: 10px 0;
-  margin-bottom: 20px;
-}
+/*# Align the Header Group Label To The Right*/
+
+/*.ag-theme-alpine .ag-header-group-cell-label {*/
+/*  flex-direction: row-reverse;*/
+/*}*/

@@ -1,0 +1,29 @@
+<button (click)="clearSelection()">Clear Selection</button>
+<button (click)="myGrid.api.deselectAll()">Deselect all via #myGrid</button>
+<!-- AG Grid Angular Component -->
+
+<!-- now assigning this "#myGrid is totally optional -->
+<!-- event without naming the element, access it in ts @ViewChild(AgGridAngular) agGrid!: AgGridAngular; -->
+<ag-grid-angular
+  #myGrid
+  style="width: 100%; height: 100%"
+  class="ag-theme-alpine"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [rowData]="rowData$ | async"
+  [rowSelection]="'multiple'"
+  [pagination]="true"
+  [animateRows]="true"
+  (gridReady)="onGridReady($event)"
+  (cellClicked)="onCellClicked($event)"
+  (rowClicked)="onRowClicked($event)">
+</ag-grid-angular>
+
+<!--<ag-grid-angular [gridOptions]=""></ag-grid-angular>-->
+
+<!--
+# Grid Options: properties and callbacks used to configure the grid, e.g. pagination = true and getRowHeight(params).
+# Grid API: methods used to interact with the grid after it's created, e.g. api.getSelectedRows().
+# Grid Events: events published by the grid to inform applications of changes in state, e.g. rowSelected.
+# Row Node: currently selected node that provides attributes, methods and events for interacting with the selected row e.g. rowNode.setSelected(true)
+-->
